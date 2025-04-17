@@ -16,12 +16,19 @@ body {
     color: var(--text-color);
     margin: 0;
     transition: all 0.3s ease;
+    padding-top: 60px; 
 }
 
 #theme-selector {
-    position: absolute;
+    position: fixed;  /* Cambiato da absolute a fixed */
     top: 20px;
     right: 20px;
+    z-index: 1000;    /* Assicura che stia sopra alla mappa */
+    background-color: var(--card-bg);
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    
 }
 
 #quiz-container {
@@ -31,7 +38,9 @@ body {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     text-align: center;
     width: 90%;
-    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
 }
 
 #stats-container {
@@ -194,4 +203,15 @@ body {
     --primary-color: #1976d2;
     --secondary-color: #03a9f4;
     --card-bg: #bbdefb;
+}
+
+/* Aggiungi in fondo al file */
+#map-container {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.leaflet-container {
+    background-color: var(--card-bg);
 }

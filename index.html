@@ -48,9 +48,18 @@
             <p><strong>Popolazione:</strong> <span id="population"></span></p>
         </div>
 
+        <!-- Aggiungi prima del pulsante Next -->
+        <div id="map-container" style="display: none; height: 200px; margin: 15px 0;">
+             <div id="map" style="height: 100%;"></div>
+        </div>
+
         <button id="next-btn" style="display: none;">Next</button>
         <p id="result"></p>
     </div>
+    
+    <!-- Aggiungi prima del tuo script -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script src="script.js"></script>
 </body>
