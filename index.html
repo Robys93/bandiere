@@ -4,18 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Indovina la bandiera</title>
+    <link id="theme-style" rel="stylesheet" href="">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="theme-selector">
+        <label for="theme">Tema:</label>
+        <select id="theme">
+            <option value="default">Default</option>
+            <option value="dark">Scuro</option>
+            <option value="nature">Natura</option>
+            <option value="ocean">Oceano</option>
+        </select>
+    </div>
+
     <div id="quiz-container">
         <h1>Flag Quiz Game</h1>
+        
+        <div id="stats-container">
+            <p>Punteggio: <span id="score">0</span></p>
+            <p>Corrette: <span id="correct">0</span>/<span id="total">0</span> (<span id="percentage">0</span>%)</p>
+        </div>
+
+        <div id="game-mode">
+            <label><input type="radio" name="mode" value="multiple" checked> Risposta Multipla</label>
+            <label><input type="radio" name="mode" value="open"> Risposta Aperta</label>
+        </div>
+
         <div id="flag-container">
             <img id="flag" src="" alt="Country Flag">
         </div>
+
         <div id="options-container"></div>
+        
+        <div id="open-answer-container" style="display: none;">
+            <input type="text" id="open-answer" placeholder="Scrivi il nome del paese">
+            <button id="submit-answer">Conferma</button>
+        </div>
+
+        <div id="country-info" style="display: none; margin-top: 15px; text-align: left;">
+            <p><strong>Descrizione:</strong> <span id="flag-description"></span></p>
+            <p><strong>Area:</strong> <span id="area"></span> km²</p>
+            <p><strong>Popolazione:</strong> <span id="population"></span></p>
+        </div>
+
         <button id="next-btn" style="display: none;">Next</button>
         <p id="result"></p>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
