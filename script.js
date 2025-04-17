@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     let correctAnswers = 0;
     let totalQuestions = 0;
+    let answerSubmitted = false;
 
     // Suoni
     const correctSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
@@ -50,10 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Genera nuova domanda
     function newQuestion() {
+        answerSubmitted = false;
         resultText.textContent = '';
         nextBtn.style.display = 'none';
         optionsContainer.innerHTML = '';
         document.getElementById('country-info').style.display = 'none';
+        openAnswerInput.disabled = false;
+        submitAnswerBtn.disabled = false;
+        openAnswerInput.value = '';
 
         const randomCountries = getRandomCountries(4);
         currentCountry = randomCountries[Math.floor(Math.random() * randomCountries.length)];
@@ -76,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             optionsContainer.style.display = 'none';
             openAnswerContainer.style.display = 'block';
-            openAnswerInput.value = '';
             openAnswerInput.focus();
         }
     }
@@ -89,10 +93,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Controlla risposta
     function checkAnswer(selectedCountry) {
+        if (answerSubmitted) return;
+        answerSubmitted = true;
+        
         totalQuestions++;
         const isCorrect = selectedCountry.name.common === currentCountry.name.common;
         
-        // Feedback audio
+        // Disabilita tutti i bottoni nella modalità multipla
+        if (document.querySelector('input[name="mode"]:checked').value === 'multiple') {
+            const allButtons = optionsContainer.querySelectorAll('button');
+            allButtons.forEach(button => {
+                button.disabled = true;
+                if (button.textContent === currentCountry.name.common) {
+                    button.classList.add('correct-highlight');
+                } else if (button.textContent === selectedCountry.name.common && !isCorrect) {
+                    button.classList.add('wrong-highlight');
+                }
+            });
+        } else {
+            openAnswerInput.disabled = true;
+            submitAnswerBtn.disabled = true;
+        }
+
+        // Feedback audio e visivo
         if (isCorrect) {
             correctSound.play();
             resultText.textContent = 'Corretto!';
@@ -108,17 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
             flagImg.classList.add('wrong-answer');
         }
 
-        // Rimuovi animazioni dopo 1 secondo
         setTimeout(() => {
             flagImg.classList.remove('correct-answer', 'wrong-answer');
         }, 1000);
 
-        // Aggiorna statistiche
         updateStats();
-
-        // Mostra informazioni aggiuntive
         showCountryInfo();
-
         nextBtn.style.display = 'block';
     }
 
@@ -159,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     openAnswerInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !answerSubmitted) {
             submitAnswerBtn.click();
         }
     });
